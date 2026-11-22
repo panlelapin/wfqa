@@ -20,6 +20,26 @@ void main() {
   });
   final entry = captureBatch('A\nB', DateTime(2025, 11, 25, 9, 5)).single;
   test(
+    'Check lit sans créer : une Inbox vide est une réponse valide',
+    () async {
+      server.listen((r) async {
+        expect(r.method, 'GET');
+        expect(r.uri.path, '/api/v1/nodes');
+        if (r.headers.value('Authorization') == 'Bearer valide') {
+          r.response.write('{"nodes":[]}');
+        } else {
+          r.response.statusCode = 401;
+        }
+        await r.response.close();
+      });
+      await client.checkKey('valide');
+      await expectLater(
+      client.checkKey('invalid-token'),
+        throwsA(isA<ApiFailure>().having((e) => e.status, 'status', 401)),
+      );
+    },
+  );
+  test(
     'réutilise les parents et ajoute le texte complet en dernière position',
     () async {
       final creations = <Map>[];

@@ -62,7 +62,11 @@ class _QuickAddState extends State<QuickAdd> {
         settings: () async {
           final changed = await showDialog<bool>(
             context: context,
-            builder: (_) => KeyDialog(write: keys.write),
+            builder: (_) => KeyDialog(
+              read: keys.read,
+              check: client.checkKey,
+              write: keys.write,
+            ),
           );
           if (changed == true) unawaited(sender.wake(credentialsChanged: true));
         },

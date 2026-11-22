@@ -1,4 +1,4 @@
-package com.example.wf_quick_add
+package com.github.panlelapin.wfqa
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine

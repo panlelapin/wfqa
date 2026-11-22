@@ -1,6 +1,6 @@
 # WorkFlowy Quick Add
 
-Ouvre les préférences (roue dentée) et colle la clé API de ton compte WorkFlowy. Tu peux déjà saisir du texte sans clé ni réseau.
+Sur Android, le champ de saisie s’ouvre vide, clavier affiché. Dans les préférences (roue dentée), ouvre la section **Clé API WorkFlowy**, saisis la clé puis touche **Check**. Une croix verte signifie que WorkFlowy l’a reconnue. Touche alors **Save** pour la conserver dans le stockage sécurisé du téléphone. Modifier la clé impose une nouvelle vérification. Tu peux saisir des entrées hors ligne sans configurer de clé.
 
 Saisis une entrée, ou plusieurs en les séparant par une ligne contenant uniquement `-`. **Ajouter** (`Ctrl+Entrée` sur Linux) enregistre le lot sur l’appareil et ferme la fenêtre. **Cancel** et `Échap` abandonnent le brouillon. Relance l’application pour afficher une nouvelle fenêtre de saisie.
 

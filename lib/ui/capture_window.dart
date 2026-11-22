@@ -23,8 +23,27 @@ class _CaptureWindowState extends State<CaptureWindow> {
   final focus = FocusNode();
   bool busy = false;
   String? error;
+  AppLifecycleListener? lifecycle;
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isAndroid) {
+      lifecycle = AppLifecycleListener(onResume: showCaptureKeyboard);
+      showCaptureKeyboard();
+    }
+  }
+
+  void showCaptureKeyboard() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || busy || ModalRoute.of(context)?.isCurrent != true) return;
+      focus.requestFocus();
+      SystemChannels.textInput.invokeMethod<void>('TextInput.show');
+    });
+  }
+
   @override
   void dispose() {
+    lifecycle?.dispose();
     text.dispose();
     focus.dispose();
     super.dispose();
@@ -99,7 +118,6 @@ class _CaptureWindowState extends State<CaptureWindow> {
                   keyboardType: TextInputType.multiline,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Saisir du texte…\nUne ligne avec - sépare deux entrées.',
                   ),
                 ),
               ),

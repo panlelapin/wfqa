@@ -6,6 +6,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wf_quick_add/ui/capture_window.dart';
 
 void main() {
+  testWidgets('ouverture : champ vide sans indication, clavier actif', (
+    t,
+  ) async {
+    await t.pumpWidget(
+      MaterialApp(
+        home: CaptureWindow(
+          linux: false,
+          save: (_) async {},
+          close: () async {},
+          settings: () async {},
+        ),
+      ),
+    );
+    await t.pumpAndSettle();
+    final field = t.widget<TextField>(find.byType(TextField));
+    expect(field.controller!.text, isEmpty);
+    expect(field.decoration?.hintText, isNull);
+    expect(t.testTextInput.isVisible, isTrue);
+  });
   testWidgets('Ajouter attend la sauvegarde et empêche une double validation', (
     t,
   ) async {

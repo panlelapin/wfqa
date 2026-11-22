@@ -6,7 +6,7 @@ Livre la version Linux en code machine natif **AMD64 (x86-64)** : compile le Dar
 
 ## Saisie et validation
 
-- À l’ouverture, affiche une fenêtre de saisie multiligne prête à recevoir du texte.
+- À l’ouverture, affiche un champ multiligne entièrement vide, sans texte indicatif. Sur Android, affiche immédiatement le clavier.
 - Sur Android et Linux, la touche `Entrée` insère un retour à la ligne sans valider la saisie. Le bouton **Ajouter** valide toutes les entrées du champ et les enregistre dans la file locale. Sur Linux, `Ctrl+Entrée` déclenche la même action que le bouton.
 - Le bouton **Cancel** et la touche `Échap` ferment la fenêtre sans enregistrer la saisie en cours.
 - Seule une ligne contenant exactement `-` sépare deux entrées. Le séparateur ne fait pas partie du texte envoyé. Un tiret dans une phrase reste du texte.
@@ -43,7 +43,7 @@ Inbox
 
 ## Envoi vers WorkFlowy
 
-- Dans les préférences, permets de saisir la clé API WorkFlowy. Pour les requêtes, utilise l’en-tête `Authorization: Bearer <clé API>`. Une clé absente ou refusée empêche l’envoi, mais pas l’enregistrement local.
+- Les préférences sont organisées en sections ; la première et seule section est la clé API WorkFlowy. **Check** teste la clé masquée avec une requête de lecture authentifiée. Une réponse valide affiche une croix verte près du champ et active **Save**, placé à côté de **Check**. Toute modification annule cette validation. Seul **Save** écrit la clé vérifiée dans le stockage sécurisé de l’appareil. Pour les requêtes, utilise l’en-tête `Authorization: Bearer <clé API>`. Une clé absente ou refusée empêche l’envoi, mais pas l’enregistrement local.
 - Utilise la cible intégrée `inbox` comme point de départ du classement. Pour conserver l’ordre de saisie sous `HHmm`, crée les items dans cet ordre avec `position: "bottom"`. Voir la [référence officielle de l’API](https://workflowy.com/api-reference/) ; le code du client en ligne de commande `wf` peut aussi servir de référence.
 - Au lancement, reprends les entrées encore en attente. Après chaque validation, déclenche leur envoi en arrière-plan via l’API WorkFlowy, sans bloquer la saisie. Tant que l’application est en cours d’exécution et que la file contient des entrées, vérifie la connectivité et reprends automatiquement l’envoi dès que WorkFlowy redevient accessible, sans attendre une nouvelle saisie. Si l’application est arrêtée entre-temps, conserve les entrées pour le prochain lancement.
 - Retire une entrée de la file uniquement lorsque WorkFlowy a confirmé la création de l’item correspondant. Si seules certaines entrées ont été envoyées, conserve les autres. Si le service est inaccessible, réessaie tant que l’application est ouverte.

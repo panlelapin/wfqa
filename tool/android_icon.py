@@ -19,7 +19,7 @@ for offset in range(390, 0, -1):
                (offset, offset, offset + size, offset + size), glyph)
 icon.paste("white", mask=glyph)
 icon.putalpha(mask)
-art = root / "fdroid/io.github.panlelapin.wfquickadd/en-US/images/icon.png"
+art = root / "fdroid/com.github.panlelapin.wfqa/en-US/images/icon.png"
 art.parent.mkdir(parents=True, exist_ok=True)
 icon.save(art)
 for density, px in zip(("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"),

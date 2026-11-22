@@ -15,6 +15,13 @@ class WorkflowyClient {
   final Uri base;
   final _http = HttpClient()..connectionTimeout = const Duration(seconds: 15);
   void close() => _http.close(force: true);
+  Future<void> checkKey(String key) async {
+    final data = await _request(key, parent: 'inbox');
+    if (data['nodes'] is! List) {
+      throw const FormatException('Réponse WorkFlowy inattendue');
+    }
+  }
+
   Future<Map<String, dynamic>> _request(
     String key, {
     required String parent,
