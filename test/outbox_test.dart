@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -5,6 +6,26 @@ import 'package:wf_quick_add/capture.dart';
 import 'package:wf_quick_add/storage/outbox.dart';
 
 void main() {
+  test(
+    'le compteur reprend le lot sur disque et suit les confirmations',
+    () async {
+      final folder = await Directory.systemTemp.createTemp();
+      addTearDown(() => folder.delete(recursive: true));
+      final batch = captureBatch('A\n-\nB', DateTime(2026));
+      await Outbox(folder).enqueueBatch(batch);
+      final reopened = Outbox(folder);
+      final values = StreamIterator(reopened.pendingCounts);
+      addTearDown(values.cancel);
+      expect(await values.moveNext(), true);
+      expect(values.current, 2);
+      await reopened.acknowledge(batch.first.id);
+      expect(await values.moveNext(), true);
+      expect(values.current, 1);
+      await reopened.acknowledge(batch.last.id);
+      expect(await values.moveNext(), true);
+      expect(values.current, 0);
+    },
+  );
   late Directory dir;
   setUp(() async => dir = await Directory.systemTemp.createTemp());
   tearDown(() async => dir.delete(recursive: true));

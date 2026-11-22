@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -8,6 +9,23 @@ class Outbox {
   final Directory directory;
   File get _file => File('${directory.path}/outbox.json');
   Future<void> _tail = Future.value();
+  final _watchers = <MultiStreamController<int>>{};
+
+  late final Stream<int> pendingCounts = Stream<int>.multi((listener) {
+    _watchers.add(listener);
+    listener.onCancel = () => _watchers.remove(listener);
+    unawaited(
+      _serial(() async {
+        try {
+          final entries = await _read();
+          if (_watchers.contains(listener)) listener.add(entries.length);
+        } catch (error, stack) {
+          if (_watchers.contains(listener)) listener.addError(error, stack);
+        }
+      }),
+    );
+  }, isBroadcast: true).distinct();
+
   Future<T> _serial<T>(Future<T> Function() action) {
     final result = _tail.then((_) => action());
     _tail = result.then<void>((_) {}, onError: (Object _) {});
@@ -36,6 +54,9 @@ class Outbox {
       flush: true,
     );
     await temp.rename(_file.path);
+    for (final watcher in _watchers) {
+      watcher.add(entries.length);
+    }
   }
 
   Future<List<PendingEntry>> pending() => _serial(_read);

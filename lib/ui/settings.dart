@@ -8,9 +8,11 @@ class KeyDialog extends StatefulWidget {
     required this.read,
     required this.check,
     required this.write,
+    required this.pendingCounts,
   });
   final Future<String?> Function() read;
   final Future<void> Function(String) check, write;
+  final Stream<int> pendingCounts;
   @override
   State<KeyDialog> createState() => _KeyDialogState();
 }
@@ -131,6 +133,23 @@ class _KeyDialogState extends State<KeyDialog> {
               ? null
               : check,
           onSave: verified == null || saving ? null : save,
+        ),
+        const Divider(height: 32),
+        Text(
+          'Envois en attente',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        StreamBuilder<int>(
+          stream: widget.pendingCounts,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) return const Text('File locale illisible.');
+            return Text(switch (snapshot.data) {
+              null => 'Lecture de la file…',
+              0 => 'Aucune entrée en attente',
+              1 => '1 entrée en attente',
+              final n => '$n entrées en attente',
+            });
+          },
         ),
       ],
     ),

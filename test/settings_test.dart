@@ -9,6 +9,8 @@ void main() {
   testWidgets(
     'Save ne stocke que la clé reconnue, jamais une réponse périmée',
     (t) async {
+      final counts = StreamController<int>();
+      addTearDown(counts.close);
       final results = <Completer<void>>[],
           checked = <String>[],
           saved = <String>[];
@@ -19,6 +21,7 @@ void main() {
               onPressed: () => showDialog<void>(
                 context: context,
                 builder: (_) => KeyDialog(
+                  pendingCounts: counts.stream,
                   read: () async => 'ancienne',
                   check: (key) {
                     checked.add(key);
@@ -38,6 +41,13 @@ void main() {
       );
       await t.tap(find.text('Ouvrir'));
       await t.pumpAndSettle();
+      expect(find.text('Envois en attente'), findsOneWidget);
+      counts.add(2);
+      await t.pumpAndSettle();
+      expect(find.text('2 entrées en attente'), findsOneWidget);
+      counts.add(0);
+      await t.pumpAndSettle();
+      expect(find.text('Aucune entrée en attente'), findsOneWidget);
       bool canSave() =>
           t
               .widget<FilledButton>(find.widgetWithText(FilledButton, 'Save'))

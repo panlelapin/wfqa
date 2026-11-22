@@ -24,6 +24,8 @@ flutter run -d linux  # sur un hôte Linux
 flutter build apk --debug
 ```
 
+Dans **Préférences → Envois en attente**, le compteur affiche le nombre d’entrées encore dans la file locale. Il reprend sa valeur au prochain lancement et se met à jour après chaque envoi confirmé.
+
 ### Distribution Linux AMD64
 
 Depuis un hôte Linux x86-64, exécuter `bash tool/package-linux-amd64.sh`. Ce script compile en mode release AOT et vérifie avec `readelf` que le lanceur, le code applicatif (`libapp.so`), le moteur Flutter et les bibliothèques embarquées sont des ELF 64 bits x86-64. L’archive obtenue est `build/dist/wf-quick-add-linux-amd64.tar.gz`. Extraire l’archive dans un dossier dédié et y lancer `./wf_quick_add` en laissant `lib/` et `data/` à côté de l’exécutable. Aucun SDK Dart ou Flutter n’est nécessaire pour l’utiliser.

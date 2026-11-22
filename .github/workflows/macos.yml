@@ -20,8 +20,8 @@ jobs:
           app=build/macos/Build/Products/Release/wf_quick_add.app
           codesign --verify --deep --strict "$app"
           lipo "$app/Contents/MacOS/wf_quick_add" -verify_arch arm64
-          ditto -c -k --keepParent "$app" wf-quick-add-0.1-macos.zip
+          ditto -c -k --keepParent "$app" wfqa-macos.zip
       - uses: actions/upload-artifact@v4
         with:
           name: wf-quick-add-macos
-          path: wf-quick-add-0.1-macos.zip
+          path: wfqa-macos.zip

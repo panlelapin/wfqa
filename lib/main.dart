@@ -66,6 +66,7 @@ class _QuickAddState extends State<QuickAdd> {
               read: keys.read,
               check: client.checkKey,
               write: keys.write,
+              pendingCounts: widget.box.pendingCounts,
             ),
           );
           if (changed == true) unawaited(sender.wake(credentialsChanged: true));
