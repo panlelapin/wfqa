@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
@@ -70,7 +72,7 @@ class _CaptureWindowState extends State<CaptureWindow> {
     },
     child: Scaffold(
       appBar: AppBar(
-        title: const Text('WorkFlowy Quick Add'),
+        title: Text(Platform.isAndroid ? 'WFQA' : 'WorkFlowy Quick Add'),
         actions: [
           IconButton(
             tooltip: 'Préférences',

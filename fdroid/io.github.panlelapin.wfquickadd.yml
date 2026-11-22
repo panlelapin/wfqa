@@ -1,7 +1,8 @@
 Categories:
   - Writing
 License: Unknown
-AutoName: WorkFlowy Quick Add
+Name: wfqa
+AutoName: WFQA
 Summary: Capture notes offline and send them to WorkFlowy
 Description: |
   Save text locally, even when offline. Separate entries with a line containing

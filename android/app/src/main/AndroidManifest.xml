@@ -2,7 +2,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="false"
-        android:label="WorkFlowy Quick Add"
+        android:label="WFQA"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

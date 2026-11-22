@@ -53,7 +53,7 @@ class _QuickAddState extends State<QuickAdd> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'WorkFlowy Quick Add',
+    title: Platform.isAndroid ? 'WFQA' : 'WorkFlowy Quick Add',
     home: Builder(
       builder: (context) => CaptureWindow(
         linux: Platform.isLinux,
