@@ -1,7 +1,9 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiKeyStore {
-  final _storage = const FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage(
+    mOptions: MacOsOptions(usesDataProtectionKeychain: false),
+  );
   Future<String?> read() => _storage.read(key: 'workflowy.api.key');
   Future<void> write(String value) => value.isEmpty
       ? _storage.delete(key: 'workflowy.api.key')

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 class AppHost {
   static const channel = MethodChannel('wf_quick_add/host');
   static Future<Directory> directory() async {
-    if (Platform.isAndroid) {
+    if (Platform.isAndroid || Platform.isMacOS) {
       return Directory((await channel.invokeMethod<String>('filesDir'))!);
     }
     final xdg = Platform.environment['XDG_DATA_HOME'];
