@@ -1,0 +1,9 @@
+Categories:
+  - Writing
+License: Unknown
+AutoName: WorkFlowy Quick Add
+Summary: Capture notes offline and send them to WorkFlowy
+Description: |
+  Save text locally, even when offline. Separate entries with a line containing
+  only a hyphen. While the app is running, it sends queued entries to the
+  WorkFlowy Inbox under the date and time of capture, using your own API key.

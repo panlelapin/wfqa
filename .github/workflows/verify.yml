@@ -1,0 +1,28 @@
+name: Vérifier Flutter
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.50.1'
+          channel: stable
+          cache: true
+      - run: sudo apt-get update && sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libsecret-1-dev xvfb xdotool dbus-x11
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - run: bash tool/package-linux-amd64.sh
+      - run: dbus-run-session -- xvfb-run -a python3 tool/linux_smoke.py build/linux/x64/release/bundle/wf_quick_add
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wf-quick-add-linux-amd64
+          path: build/dist/wf-quick-add-linux-amd64.tar.gz
+          if-no-files-found: error
+      - run: flutter build apk --debug
