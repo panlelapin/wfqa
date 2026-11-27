@@ -32,7 +32,7 @@ jobs:
     needs: build
     permissions:
       contents: write
-    uses: panlelapin/android/.github/workflows/sign-apk.yml@6299389f5cc44bd9a090bd68528e1d7f7ac27f3f
+    uses: panlelapin/fdroidrepo/.github/workflows/sign-apk.yml@6299389f5cc44bd9a090bd68528e1d7f7ac27f3f
     secrets:
       apk_p12: ${{ secrets.ANDROID_RELEASE_P12_B64 }}
       apk_password: ${{ secrets.ANDROID_RELEASE_PASSWORD }}
